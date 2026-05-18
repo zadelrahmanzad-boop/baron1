@@ -3,187 +3,275 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BARON POS - تسجيل الدخول</title>
+    <title>BARON - تسجيل الدخول</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
-        body { background: #1a1a2e; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
-        .login-box { background: #16213e; padding: 40px; border-radius: 15px; width: 90%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        .login-box h1 { color: #e94560; text-align: center; margin-bottom: 10px; font-size: 28px; }
-        .login-box p { color: #a0a0a0; text-align: center; margin-bottom: 30px; }
-        .input-group { margin-bottom: 20px; }
-        .input-group label { color: #fff; display: block; margin-bottom: 8px; font-size: 14px; }
-        .input-group input { width: 100%; padding: 12px 15px; border: 2px solid #0f3460; border-radius: 8px; background: #0f3460; color: #fff; font-size: 15px; outline: none; transition: 0.3s; }
-        .input-group input:focus { border-color: #e94560; }
-        .btn-login { width: 100%; padding: 14px; background: #e94560; color: #fff; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; transition: 0.3s; font-weight: bold; }
-        .btn-login:hover { background: #c13651; transform: translateY(-2px); }
-        .btn-login:disabled { background: #555; cursor: not-allowed; transform: none; }
-        .error-msg { color: #ff6b6b; text-align: center; margin-top: 15px; display: none; font-size: 14px; padding: 10px; background: rgba(255,0,0,0.1); border-radius: 5px; }
-        .success-msg { color: #28a745; text-align: center; margin-top: 15px; display: none; font-size: 14px; padding: 10px; background: rgba(0,255,0,0.1); border-radius: 5px; }
-        .info { color: #888; text-align: center; margin-top: 20px; font-size: 13px; }
-        .loading { display: none; text-align: center; color: #e94560; margin-top: 10px; }
-        .debug-info { color: #666; font-size: 11px; text-align: center; margin-top: 10px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .login-box {
+            background: rgba(255,255,255,0.95);
+            padding: 45px 40px;
+            border-radius: 24px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+            width: 100%;
+            max-width: 440px;
+            animation: fadeIn 0.7s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(40px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .brand {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+        .brand h1 {
+            font-size: 42px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #e94560 0%, #ff6b6b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+        }
+        .brand p { color: #888; font-size: 15px; }
+        .input-wrap {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .input-wrap label {
+            display: block;
+            margin-bottom: 8px;
+            color: #444;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .input-wrap input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e8e8e8;
+            border-radius: 14px;
+            font-size: 16px;
+            font-family: 'Cairo', sans-serif;
+            transition: all 0.3s;
+            background: #fafafa;
+        }
+        .input-wrap input:focus {
+            outline: none;
+            border-color: #e94560;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(233,69,96,0.1);
+        }
+        .login-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #e94560 0%, #c73e54 100%);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Cairo', sans-serif;
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: 0.5px;
+        }
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(233,69,96,0.35);
+        }
+        .login-btn:active { transform: translateY(0); }
+        .login-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .alert {
+            padding: 14px;
+            border-radius: 12px;
+            margin-bottom: 18px;
+            font-size: 14px;
+            display: none;
+            text-align: center;
+            font-weight: 600;
+        }
+        .alert.show { display: block; }
+        .alert-err { background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; }
+        .alert-warn { background: #fff3e0; color: #e65100; border: 1px solid #ffcc80; }
+        .alert-ok { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+        .loader {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .hint {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #999;
+        }
+        .version {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 12px;
+            color: #bbb;
+        }
     </style>
 </head>
 <body>
     <div class="login-box">
-        <h1>🍔 BARON POS</h1>
-        <p>نظام كاشير المطاعم الذكي</p>
-        
-        <div class="input-group">
-            <label>📧 البريد الإلكتروني</label>
-            <input type="email" id="email" placeholder="cashier1@baron.com" value="cashier1@baron.com">
+        <div class="brand">
+            <h1>🍔 BARON</h1>
+            <p>نظام كاشير المطاعم الذكي</p>
         </div>
-        
-        <div class="input-group">
-            <label>🔒 كلمة المرور</label>
-            <input type="password" id="password" placeholder="123456" value="123456">
-        </div>
-        
-        <button class="btn-login" id="loginBtn" onclick="login()">تسجيل الدخول</button>
-        <div class="loading" id="loading">⏳ جاري تسجيل الدخول...</div>
-        <div class="error-msg" id="errorMsg"></div>
-        <div class="success-msg" id="successMsg"></div>
-        
-        <p class="info">ℹ️ إنشاء الحسابات متاح للمدير فقط</p>
-        <p class="debug-info" id="debugInfo"></p>
+
+        <div id="alertBox" class="alert"></div>
+
+        <form id="loginForm">
+            <div class="input-wrap">
+                <label>📧 البريد الإلكتروني</label>
+                <input type="email" id="email" placeholder="example@email.com" required>
+            </div>
+            <div class="input-wrap">
+                <label>🔒 كلمة المرور</label>
+                <input type="password" id="password" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="login-btn" id="loginBtn">
+                <span class="loader" id="spinner"></span>
+                تسجيل الدخول
+            </button>
+        </form>
+
+        <p class="hint">ℹ️ إنشاء الحسابات متاح للمدير فقط من لوحة التحكم</p>
+        <p class="version">BARON POS v1.0</p>
     </div>
 
-    <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
-            apiKey: "AIzaSyDP2XqvPp7UpF_i1Yhq69QTkMLdAlbVD0w",
-            authDomain: "caheir-d3e62.firebaseapp.com",
-            projectId: "caheir-d3e62",
-            storageBucket: "caheir-d3e62.firebasestorage.app",
-            messagingSenderId: "274782108081",
-            appId: "1:274782108081:web:717f6229b0d27f16b5e590",
-            measurementId: "G-M2P0KK4DDS"
+            apiKey: "AIzaSyDf_FZ5dDhJCYag9EpEblgylTrxber7oks",
+            authDomain: "cashier-52332.firebaseapp.com",
+            projectId: "cashier-52332",
+            storageBucket: "cashier-52332.firebasestorage.app",
+            messagingSenderId: "708122460779",
+            appId: "1:708122460779:web:5c0fb2f36488aa6ae3272e",
+            measurementId: "G-8BLM2L0LN5"
         };
 
-        try {
-            const app = initializeApp(firebaseConfig);
-            const auth = getAuth(app);
-            const db = getFirestore(app);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
 
-            console.log("✅ Firebase initialized successfully");
-
-            // لو مسجل دخوله مسبقاً، وجهه للموقع الثاني
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    console.log("👤 User already logged in:", user.email);
-                    window.location.href = 'https://zadelrahmanzad-boop.github.io/baron2/';
+        // If already logged in, redirect to baron2
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const userDoc = await getDoc(doc(db, "users", user.uid));
+                if (userDoc.exists()) {
+                    const data = userDoc.data();
+                    // Check expiration (skip for admin)
+                    if (data.role !== 'admin' && data.expiresAt && data.expiresAt.toDate) {
+                        const now = new Date();
+                        const expires = data.expiresAt.toDate();
+                        if (now > expires) {
+                            await auth.signOut();
+                            showAlert('⛔ حسابك منتهي الصلاحية. تواصل مع المدير.', 'err');
+                            return;
+                        }
+                    }
                 }
-            });
+                // Redirect to baron2
+                window.location.href = "https://zadelrahmanzad-boop.github.io/baron2/";
+            }
+        });
 
-            window.login = async function() {
-                const email = document.getElementById('email').value.trim();
-                const password = document.getElementById('password').value;
-                const loginBtn = document.getElementById('loginBtn');
-                const loading = document.getElementById('loading');
-                const errorMsg = document.getElementById('errorMsg');
-                const successMsg = document.getElementById('successMsg');
-                const debugInfo = document.getElementById('debugInfo');
+        function showAlert(text, type) {
+            const box = document.getElementById('alertBox');
+            box.textContent = text;
+            box.className = 'alert show alert-' + type;
+        }
 
-                if (!email || !password) {
-                    showError('❌ من فضلك أدخل البريد وكلمة المرور');
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('loginBtn');
+            const spinner = document.getElementById('spinner');
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            btn.disabled = true;
+            spinner.style.display = 'inline-block';
+
+            try {
+                const cred = await signInWithEmailAndPassword(auth, email, password);
+                const user = cred.user;
+                const userDoc = await getDoc(doc(db, "users", user.uid));
+
+                if (!userDoc.exists()) {
+                    await auth.signOut();
+                    btn.disabled = false;
+                    spinner.style.display = 'none';
+                    showAlert('❌ بيانات المستخدم غير موجودة في النظام', 'err');
                     return;
                 }
 
-                loginBtn.disabled = true;
-                loading.style.display = 'block';
-                errorMsg.style.display = 'none';
-                successMsg.style.display = 'none';
-
-                try {
-                    console.log("🔑 Attempting login with:", email);
-                    
-                    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                    const user = userCredential.user;
-                    
-                    console.log("✅ Login successful:", user.uid);
-
-                    // جلب اسم المستخدم من Firestore
-                    let userName = email.split('@')[0];
-                    try {
-                        const userDoc = await getDoc(doc(db, "users", user.uid));
-                        if (userDoc.exists()) {
-                            userName = userDoc.data().name || userName;
-                            console.log("📄 User data from Firestore:", userDoc.data());
-                        }
-                    } catch (e) {
-                        console.log("⚠️ Could not fetch user data:", e.message);
-                    }
-
-                    const userData = {
-                        uid: user.uid,
-                        email: user.email,
-                        name: userName,
-                        loginTime: new Date().toISOString()
-                    };
-
-                    localStorage.setItem('baron_current_user', JSON.stringify(userData));
-                    
-                    successMsg.innerText = '✅ تم تسجيل الدخول! جاري التوجيه...';
-                    successMsg.style.display = 'block';
-                    debugInfo.innerText = 'UID: ' + user.uid;
-
-                    setTimeout(() => {
-                        window.location.href = 'https://zadelrahmanzad-boop.github.io/baron2/';
-                    }, 1500);
-
-                } catch (error) {
-                    console.error("❌ Login error:", error.code, error.message);
-                    let message = '❌ ';
-                    switch(error.code) {
-                        case 'auth/user-not-found': 
-                            message += 'هذا البريد غير مسجل في النظام'; 
-                            break;
-                        case 'auth/wrong-password': 
-                            message += 'كلمة المرور غير صحيحة'; 
-                            break;
-                        case 'auth/invalid-email': 
-                            message += 'البريد الإلكتروني غير صالح'; 
-                            break;
-                        case 'auth/invalid-credential': 
-                            message += 'البريد أو كلمة المرور خطأ'; 
-                            break;
-                        case 'auth/too-many-requests': 
-                            message += 'تم حظر المحاولات مؤقتاً'; 
-                            break;
-                        case 'auth/network-request-failed':
-                            message += 'مشكلة في الاتصال بالإنترنت';
-                            break;
-                        default: 
-                            message += error.message;
-                    }
-                    showError(message);
-                    debugInfo.innerText = 'Error: ' + error.code;
-                } finally {
-                    loginBtn.disabled = false;
-                    loading.style.display = 'none';
+                const data = userDoc.data();
+                if (data.status === 'disabled') {
+                    await auth.signOut();
+                    btn.disabled = false;
+                    spinner.style.display = 'none';
+                    showAlert('⛔ حسابك معطل', 'err');
+                    return;
                 }
-            };
 
-            function showError(msg) {
-                const errorMsg = document.getElementById('errorMsg');
-                errorMsg.innerText = msg;
-                errorMsg.style.display = 'block';
+                // Check expiration (skip for admin)
+                if (data.role !== 'admin' && data.expiresAt && data.expiresAt.toDate) {
+                    const now = new Date();
+                    const expires = data.expiresAt.toDate();
+                    const daysLeft = Math.ceil((expires - now) / (1000 * 60 * 60 * 24));
+
+                    if (now > expires) {
+                        await auth.signOut();
+                        btn.disabled = false;
+                        spinner.style.display = 'none';
+                        showAlert('⛔ انتهت صلاحية حسابك', 'err');
+                        return;
+                    }
+                    if (daysLeft <= 3) {
+                        showAlert('⚠️ صلاحية حسابك تنتهي خلال ' + daysLeft + ' أيام', 'warn');
+                    }
+                }
+
+                await updateDoc(doc(db, "users", user.uid), { lastLogin: serverTimestamp() });
+
+                // Redirect to baron2
+                window.location.href = "https://zadelrahmanzad-boop.github.io/baron2/";
+
+            } catch (err) {
+                btn.disabled = false;
+                spinner.style.display = 'none';
+                let msg = '❌ ' + (err.code === 'auth/user-not-found' ? 'البريد غير مسجل' :
+                    err.code === 'auth/wrong-password' ? 'كلمة المرور غير صحيحة' :
+                    err.code === 'auth/invalid-email' ? 'بريد غير صالح' :
+                    err.code === 'auth/too-many-requests' ? 'محاولات كثيرة' : err.message);
+                showAlert(msg, 'err');
             }
-
-            // Enter key
-            document.getElementById('password').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') window.login();
-            });
-
-        } catch (initError) {
-            console.error("❌ Firebase init error:", initError);
-            document.getElementById('errorMsg').innerText = '❌ خطأ في تهيئة Firebase: ' + initError.message;
-            document.getElementById('errorMsg').style.display = 'block';
-        }
+        });
     </script>
 </body>
 </html>

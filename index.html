@@ -3,95 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل الدخول | نظام الكاشير</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>BARON POS - تسجيل الدخول</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Cairo', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
         }
-        .container {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 25px 80px rgba(0,0,0,0.3);
+        .login-box {
+            background: rgba(255,255,255,0.95);
+            padding: 45px 40px;
+            border-radius: 24px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.4);
             width: 100%;
-            max-width: 420px;
-            animation: slideUp 0.6s ease;
+            max-width: 440px;
+            animation: fadeIn 0.7s ease;
+            backdrop-filter: blur(20px);
         }
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(40px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
-        .logo { text-align: center; margin-bottom: 25px; }
-        .logo h1 { font-size: 28px; color: #333; }
-        .logo p { color: #888; font-size: 14px; margin-top: 5px; }
-        .input-group { margin-bottom: 18px; }
-        label { display: block; margin-bottom: 6px; color: #555; font-weight: 600; font-size: 14px; }
-        input {
-            width: 100%; padding: 13px 15px; border: 2px solid #e8e8e8; border-radius: 12px;
-            font-size: 15px; font-family: 'Cairo', sans-serif; transition: all 0.3s;
+        .brand {
+            text-align: center;
+            margin-bottom: 35px;
         }
-        input:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 4px rgba(102,126,234,0.1); }
-        .btn {
-            width: 100%; padding: 14px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white; border: none; border-radius: 12px; font-size: 17px; font-weight: 700;
-            cursor: pointer; transition: all 0.3s; font-family: 'Cairo', sans-serif; margin-top: 10px;
-            display: flex; justify-content: center; align-items: center; gap: 8px;
+        .brand h1 {
+            font-size: 36px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #e94560 0%, #ff6b6b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
         }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(102,126,234,0.4); }
-        .btn:active { transform: translateY(0); }
-        .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-        .message {
-            padding: 12px 15px; border-radius: 10px; margin-bottom: 15px; font-size: 14px;
-            display: none; text-align: center;
+        .brand p { color: #888; font-size: 15px; }
+        .input-wrap {
+            margin-bottom: 20px;
+            position: relative;
         }
-        .message.show { display: block; }
-        .message.success { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
-        .message.error { background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; }
-        .message.warning { background: #fff3e0; color: #e65100; border: 1px solid #ffcc80; }
-        .spinner {
-            display: none; width: 20px; height: 20px; border: 2px solid #fff;
-            border-top-color: transparent; border-radius: 50%; animation: spin 0.8s linear infinite;
+        .input-wrap label {
+            display: block;
+            margin-bottom: 8px;
+            color: #444;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .input-wrap input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e8e8e8;
+            border-radius: 14px;
+            font-size: 16px;
+            font-family: 'Cairo', sans-serif;
+            transition: all 0.3s;
+            background: #fafafa;
+        }
+        .input-wrap input:focus {
+            outline: none;
+            border-color: #e94560;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(233,69,96,0.1);
+        }
+        .login-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #e94560 0%, #c73e54 100%);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Cairo', sans-serif;
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: 0.5px;
+        }
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(233,69,96,0.35);
+        }
+        .login-btn:active { transform: translateY(0); }
+        .login-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .alert {
+            padding: 14px;
+            border-radius: 12px;
+            margin-bottom: 18px;
+            font-size: 14px;
+            display: none;
+            text-align: center;
+            font-weight: 600;
+        }
+        .alert.show { display: block; }
+        .alert-err { background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; }
+        .alert-warn { background: #fff3e0; color: #e65100; border: 1px solid #ffcc80; }
+        .alert-ok { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+        .loader {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .info-box {
-            background: #f8f9ff; border-right: 4px solid #667eea; padding: 12px 15px;
-            border-radius: 10px; margin-bottom: 20px; font-size: 13px; color: #555;
+        .hint {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #999;
         }
     </style>
 <base target="_blank">
 </head>
 <body>
-    <div class="container">
-        <div class="logo">
-            <h1>🛒 نظام الكاشير</h1>
-            <p>تسجيل الدخول للنظام</p>
+    <div class="login-box">
+        <div class="brand">
+            <h1>🍔 BARON POS</h1>
+            <p>نظام كاشير المطاعم الذكي</p>
         </div>
-        <div class="info-box">
-            ℹ️ إنشاء الحسابات متاح للمدير فقط من لوحة التحكم.
-        </div>
-        <div id="message" class="message"></div>
+
+        <div id="alertBox" class="alert"></div>
+
         <form id="loginForm">
-            <div class="input-group">
+            <div class="input-wrap">
                 <label>📧 البريد الإلكتروني</label>
-                <input type="email" id="loginEmail" placeholder="example@email.com" required>
+                <input type="email" id="email" placeholder="example@email.com" required>
             </div>
-            <div class="input-group">
+            <div class="input-wrap">
                 <label>🔒 كلمة المرور</label>
-                <input type="password" id="loginPassword" placeholder="••••••••" required>
+                <input type="password" id="password" placeholder="••••••••" required>
             </div>
-            <button type="submit" class="btn" id="loginBtn">
-                <span class="spinner" id="loginSpinner"></span>
-                دخول
+            <button type="submit" class="login-btn" id="loginBtn">
+                <span class="loader" id="spinner"></span>
+                تسجيل الدخول
             </button>
         </form>
+        <p class="hint">ℹ️ إنشاء الحسابات متاح للمدير فقط من لوحة التحكم</p>
     </div>
 
     <script type="module">
@@ -118,13 +178,12 @@
                 const userDoc = await getDoc(doc(db, "users", user.uid));
                 if (userDoc.exists()) {
                     const data = userDoc.data();
-                    // المدير معفى من فحص الصلاحية
                     if (data.role !== 'admin' && data.expiresAt && data.expiresAt.toDate) {
                         const now = new Date();
                         const expires = data.expiresAt.toDate();
                         if (now > expires) {
                             await auth.signOut();
-                            showMessage('⛔ حسابك منتهي الصلاحية. تواصل مع المدير.', 'error');
+                            showAlert('⛔ حسابك منتهي الصلاحية. تواصل مع المدير.', 'err');
                             return;
                         }
                     }
@@ -133,25 +192,21 @@
             }
         });
 
-        function showMessage(text, type) {
-            const msg = document.getElementById('message');
-            msg.textContent = text;
-            msg.className = 'message show ' + type;
-        }
-        function hideMessage() {
-            document.getElementById('message').className = 'message';
+        function showAlert(text, type) {
+            const box = document.getElementById('alertBox');
+            box.textContent = text;
+            box.className = 'alert show alert-' + type;
         }
 
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('loginBtn');
-            const spinner = document.getElementById('loginSpinner');
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
+            const spinner = document.getElementById('spinner');
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
 
             btn.disabled = true;
             spinner.style.display = 'inline-block';
-            hideMessage();
 
             try {
                 const cred = await signInWithEmailAndPassword(auth, email, password);
@@ -162,7 +217,7 @@
                     await auth.signOut();
                     btn.disabled = false;
                     spinner.style.display = 'none';
-                    showMessage('❌ بيانات المستخدم غير موجودة في النظام', 'error');
+                    showAlert('❌ بيانات المستخدم غير موجودة في النظام', 'err');
                     return;
                 }
 
@@ -171,11 +226,10 @@
                     await auth.signOut();
                     btn.disabled = false;
                     spinner.style.display = 'none';
-                    showMessage('⛔ حسابك معطل. تواصل مع المدير.', 'error');
+                    showAlert('⛔ حسابك معطل', 'err');
                     return;
                 }
 
-                // فحص الصلاحية - المدير معفى
                 if (data.role !== 'admin' && data.expiresAt && data.expiresAt.toDate) {
                     const now = new Date();
                     const expires = data.expiresAt.toDate();
@@ -185,12 +239,11 @@
                         await auth.signOut();
                         btn.disabled = false;
                         spinner.style.display = 'none';
-                        showMessage('⛔ انتهت صلاحية حسابك. تواصل مع المدير.', 'error');
+                        showAlert('⛔ انتهت صلاحية حسابك', 'err');
                         return;
                     }
-
                     if (daysLeft <= 3) {
-                        showMessage('⚠️ صلاحية حسابك تنتهي خلال ' + daysLeft + ' أيام', 'warning');
+                        showAlert('⚠️ صلاحية حسابك تنتهي خلال ' + daysLeft + ' أيام', 'warn');
                     }
                 }
 
@@ -198,13 +251,11 @@
             } catch (err) {
                 btn.disabled = false;
                 spinner.style.display = 'none';
-                let msg = 'حدث خطأ';
-                if (err.code === 'auth/user-not-found') msg = '❌ البريد غير مسجل';
-                else if (err.code === 'auth/wrong-password') msg = '❌ كلمة المرور غير صحيحة';
-                else if (err.code === 'auth/invalid-email') msg = '❌ بريد غير صالح';
-                else if (err.code === 'auth/too-many-requests') msg = '❌ محاولات كثيرة، حاول لاحقاً';
-                else msg = '❌ ' + err.message;
-                showMessage(msg, 'error');
+                let msg = '❌ ' + (err.code === 'auth/user-not-found' ? 'البريد غير مسجل' :
+                    err.code === 'auth/wrong-password' ? 'كلمة المرور غير صحيحة' :
+                    err.code === 'auth/invalid-email' ? 'بريد غير صالح' :
+                    err.code === 'auth/too-many-requests' ? 'محاولات كثيرة' : err.message);
+                showAlert(msg, 'err');
             }
         });
     </script>
